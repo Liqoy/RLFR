@@ -11,6 +11,8 @@ export default async function handler(req, res) {
       .limit(20)
       .toArray();
 
+    console.log("Clips fetched from DB:", JSON.stringify(clips[0] || {}, null, 2));
+
     res.status(200).json(
       clips.map((clip) => ({
         ...clip,
