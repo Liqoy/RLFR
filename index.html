@@ -126,30 +126,100 @@
     </section>
 
     <!-- Community Clips Section -->
-    <section id="clips" class="py-24 bg-[#0d0d11]">
+    <section id="clips" class="py-24 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <h2 class="font-['Orbitron'] text-4xl font-bold mb-4 italic text-gradient">DERNIERS <span class="text-white text-shadow">CLIPS</span></h2>
-                    <p class="text-gray-400 font-medium">Les meilleures actions envoyées dans le salon <span class="text-white font-bold">#clip_rl</span>.</p>
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div class="text-left">
+                    <h2 class="font-['Orbitron'] text-4xl md:text-5xl font-black italic uppercase tracking-tighter mb-4">Derniers <span class="text-blue-500">Clips</span></h2>
+                    <p class="text-gray-400 font-medium tracking-wide">Les meilleures actions de la communauté RL-FR.</p>
                 </div>
-                <a href="clips.html" class="bg-white/5 hover:bg-white/10 px-6 py-2 rounded-lg text-sm font-bold transition flex items-center space-x-2 border border-white/10">
-                    <span>Voir la galerie</span>
-                    <i class="fas fa-arrow-right text-xs"></i>
-                </a>
+                <div class="flex items-center space-x-4">
+                    <button id="prev-clip" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all group">
+                        <i class="fas fa-chevron-left group-hover:scale-110 transition-transform"></i>
+                    </button>
+                    <button id="next-clip" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all group">
+                        <i class="fas fa-chevron-right group-hover:scale-110 transition-transform"></i>
+                    </button>
+                    <a href="clips.html" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-xl font-bold transition uppercase tracking-widest text-[10px] border border-white/10">Voir tout</a>
+                </div>
             </div>
-
-            <div id="home-clips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Les derniers clips seront chargés ici -->
-                <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
-                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
+            
+            <div class="relative group">
+                <div id="home-clips-container" class="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 transition-all duration-500 scroll-smooth">
+                    <!-- Les clips seront chargés ici -->
+                    <div class="min-w-full md:min-w-[calc(33.333%-1rem)] snap-center">
+                        <div class="bg-[#15151b] border border-white/5 rounded-2xl p-12 text-center">
+                            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
+                            </div>
+                            <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400">Chargement...</h3>
+                        </div>
                     </div>
-                    <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 bg-[#0d0d11]">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-['Orbitron'] text-4xl font-bold mb-4 italic">QUESTIONS <span class="text-blue-500">FRÉQUENTES</span></h2>
+                <div class="w-24 h-1 bg-blue-500 mx-auto"></div>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-[#15151b] border border-white/5 rounded-xl p-6">
+                    <h3 class="font-bold text-lg mb-2">Comment rejoindre un tournoi ?</h3>
+                    <p class="text-gray-400">Rendez-vous dans le salon <span class="text-white">#planning-tournois</span> et suivez les instructions du bot pour inscrire votre équipe.</p>
+                </div>
+                <div class="bg-[#15151b] border border-white/5 rounded-xl p-6">
+                    <h3 class="font-bold text-lg mb-2">Le bot est-il gratuit ?</h3>
+                    <p class="text-gray-400">Oui, toutes les fonctionnalités du bot RL-FR sont accessibles gratuitement à tous les membres du serveur.</p>
+                </div>
+                <div class="bg-[#15151b] border border-white/5 rounded-xl p-6">
+                    <h3 class="font-bold text-lg mb-2">Je cherche un coach, comment faire ?</h3>
+                    <p class="text-gray-400">Pas de coach disponible pour le moment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord CTA -->
+    <section id="discord" class="py-24 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-indigo-600/10 z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="bg-gradient-to-r from-indigo-900 to-indigo-700 rounded-3xl p-12 text-center md:text-left md:flex items-center justify-between">
+                <div>
+                    <h2 class="font-['Orbitron'] text-4xl md:text-5xl font-black mb-4 italic">PRÊT À GRIMPER LE LADDER ?</h2>
+                    <p class="text-xl text-indigo-100/80 mb-0">Rejoins +67 membres actifs dès maintenant.</p>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-indigo-900 px-10 py-5 rounded-xl font-black text-xl transition transform hover:scale-105 flex items-center justify-center space-x-3">
+                        <i class="fab fa-discord"></i>
+                        <span>REJOINDRE LE DISCORD</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-6 md:mb-0">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-orange-500 rounded flex items-center justify-center font-['Orbitron'] font-black text-sm italic">RL</div>
+                <span class="font-['Orbitron'] font-bold text-lg tracking-tighter">RL-FR</span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 RL-FR Community. Tous droits réservés. Non affilié à Psyonix ou Epic Games.
+            </div>
+            <div class="flex space-x-6 mt-6 md:mt-0 text-xl text-gray-400">
+                <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-purple-500 transition"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Menu Toggle Logic
@@ -180,6 +250,9 @@
 
         async function loadHomeClips() {
             const container = document.getElementById('home-clips-container');
+            const prevBtn = document.getElementById('prev-clip');
+            const nextBtn = document.getElementById('next-clip');
+
             try {
                 const response = await fetch('/api/get-clips');
                 if (!response.ok) throw new Error('Erreur réseau');
@@ -190,24 +263,25 @@
 
                 if (clips.length === 0) {
                     container.innerHTML = `
-                        <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
+                        <div class="min-w-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
                             <div class="w-32 h-32 mx-auto mb-6">
                                 <img src="https://i.ibb.co/JRQDspgh/video-01.png" class="w-full h-full object-contain opacity-50 grayscale hover:grayscale-0 transition-all duration-500" alt="Aucun clip">
                             </div>
                             <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Aucun clip posté</h3>
                             <p class="text-gray-500 max-w-md mx-auto text-center">Soyez le premier à partager votre exploit dans le salon <span class="text-blue-500 font-bold">#clip_rl</span> pour apparaître ici !</p>
                         </div>`;
+                    if (prevBtn) prevBtn.style.display = 'none';
+                    if (nextBtn) nextBtn.style.display = 'none';
                     return;
                 }
 
-                // Afficher seulement les 3 premiers clips sur l'accueil
-                const homeClips = clips.slice(0, 3);
+                // Afficher tous les clips récents (limité à 10 pour le slider)
+                const sliderClips = clips.slice(0, 10);
                 
-                container.innerHTML = homeClips.map(clip => {
+                container.innerHTML = sliderClips.map(clip => {
                     const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
                     const isTwitch = clip.url.includes('twitch.tv');
                     
-                    // Récupération sécurisée des données avec replis
                     const authorName = clip.author || clip.username || 'Anonyme';
                     const authorAvatar = clip.authorAvatar || clip.avatar || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
                     const createdAt = clip.createdAt || clip.timestamp || new Date();
@@ -224,14 +298,11 @@
                     }
 
                     let hoverBorderColor = 'hover:border-blue-500/50';
-                    if (isYoutube) {
-                        hoverBorderColor = 'hover:border-red-600';
-                    } else if (isTwitch) {
-                        hoverBorderColor = 'hover:border-purple-600';
-                    }
+                    if (isYoutube) hoverBorderColor = 'hover:border-red-600';
+                    else if (isTwitch) hoverBorderColor = 'hover:border-purple-600';
 
                     return `
-                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
+                        <div class="min-w-[85vw] md:min-w-[calc(33.333%-1rem)] snap-center bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
                             ${embedHtml}
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
@@ -248,9 +319,19 @@
                     `;
                 }).join('');
 
+                // Navigation du slider
+                if (prevBtn && nextBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
+                    });
+                    nextBtn.addEventListener('click', () => {
+                        container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
+                    });
+                }
+
             } catch (error) {
                 console.error(error);
-                container.innerHTML = `<p class="text-red-500 col-span-full text-center">Erreur lors du chargement des clips.</p>`;
+                container.innerHTML = '<p class="text-red-500 text-center col-span-full">Erreur lors du chargement des clips.</p>';
             }
         }
 
