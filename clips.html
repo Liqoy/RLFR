@@ -45,16 +45,22 @@
                     <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
                 </div>
             </div>
+            <p id="error" class="text-red-500 mt-8 hidden"></p>
         </div>
     </main>
 
     <script>
         async function loadClips() {
             const container = document.getElementById('clips-container');
+            const errorElement = document.getElementById('error');
+            
             try {
                 const response = await fetch('/api/get-clips');
                 if (!response.ok) throw new Error('Erreur réseau');
-                const clips = await response.json();
+                const data = await response.json();
+
+                // Filtrer les entrées de suppression ou invalides
+                const clips = data.filter(c => !c.action && c.url);
 
                 if (clips.length === 0) {
                     container.innerHTML = `
@@ -86,24 +92,11 @@
                         const clipSlug = clip.url.split('/').pop();
                         embedHtml = `<iframe src="https://clips.twitch.tv/embed?clip=${clipSlug}&parent=${window.location.hostname}" frameborder="0" allowfullscreen="true" scrolling="no" class="w-full aspect-video rounded-t-2xl"></iframe>`;
                     } else {
-                        // Clip hors plateformes (fichier direct) : player personnalisé
                         embedHtml = `
                             <div class="relative group">
-                                <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/30 via-transparent to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                                <div class="absolute inset-0 ring-1 ring-white/10 rounded-t-2xl group-hover:ring-blue-500/40 transition-all duration-500 pointer-events-none"></div>
                                 <video controls class="relative w-full aspect-video object-cover rounded-t-2xl bg-black/60">
                                     <source src="${clip.url}" type="video/mp4">
                                 </video>
-                                <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-center px-4 justify-between">
-                                    <div class="flex items-center space-x-2 text-[11px] font-black uppercase tracking-[0.2em] text-white/80">
-                                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                                        <span>Highlight</span>
-                                    </div>
-                                    <div class="flex items-center space-x-2 text-[11px] text-white/60">
-                                        <i class="fas fa-bolt text-yellow-400"></i>
-                                        <span>RL-FR</span>
-                                    </div>
-                                </div>
                             </div>
                         `;
                     }
@@ -115,16 +108,10 @@
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center space-x-4">
                                         <img src="${clip.authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${clip.author}">
-                                        <div>
+                                        <div class="text-left">
                                             <h4 class="font-bold text-blue-400">@${clip.author}</h4>
-                                            <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                            <p class="text-xs text-gray-500">${new Date(clip.createdAt || clip.timestamp).toLocaleDateString('fr-FR')}</p>
                                         </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-xs text-gray-600 font-mono bg-gray-800 px-2 py-1 rounded">ID: ${clip.id}</span>
-                                        <button onclick="navigator.clipboard.writeText('${clip.id}')" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copier l'ID">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
                                     </div>
                                 </div>
                                 <a href="${clip.url}" target="_blank" class="text-xs uppercase tracking-widest font-black text-gray-400 hover:text-white transition-colors flex items-center space-x-2">
@@ -138,7 +125,9 @@
 
             } catch (error) {
                 console.error(error);
-                container.innerHTML = `<p class="text-red-500 col-span-full text-center">Erreur lors du chargement des clips.</p>`;
+                errorElement.textContent = "Erreur lors du chargement des clips.";
+                errorElement.classList.remove('hidden');
+                container.innerHTML = '';
             }
         }
 
