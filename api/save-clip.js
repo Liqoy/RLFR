@@ -11,6 +11,17 @@ export default async function handler(req, res) {
     const db = await getDb();
     const collection = db.collection("clips");
 
+    // Gérer la suppression si l'action est "delete"
+    if (data.action === "delete" && data.clipId) {
+      const result = await collection.deleteOne({ id: data.clipId });
+      if (result.deletedCount === 1) {
+        return res.status(200).json({ ok: true, message: "Clip supprimé" });
+      } else {
+        return res.status(404).json({ ok: false, message: "Clip introuvable" });
+      }
+    }
+
+    // Sinon, c'est un nouvel enregistrement
     await collection.insertOne({
       ...data,
       createdAt: new Date(),
