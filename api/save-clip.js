@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { getDb } from "../lib/mongo.js";
 
 export default async function handler(req, res) {
@@ -14,7 +15,20 @@ export default async function handler(req, res) {
     // Gérer la suppression si l'action est "delete"
     if (data.action === "delete" && (data.clipId || data.id)) {
       const idToDelete = data.clipId || data.id;
-      const result = await collection.deleteOne({ id: idToDelete });
+      
+      let query = { id: idToDelete };
+      
+      // Si l'ID ressemble à un ObjectId MongoDB (24 hex chars)
+      if (idToDelete.length === 24 && /^[0-9a-fA-F]+$/.test(idToDelete)) {
+        query = {
+          $or: [
+            { id: idToDelete },
+            { _id: new ObjectId(idToDelete) }
+          ]
+        };
+      }
+
+      const result = await collection.deleteOne(query);
       if (result.deletedCount === 1) {
         return res.status(200).json({ ok: true, message: "Clip supprimé" });
       } else {
