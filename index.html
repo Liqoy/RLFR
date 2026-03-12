@@ -189,11 +189,17 @@
                     }
 
                     let borderColor = 'border-white/5';
-                    if (isYoutube) borderColor = 'border-red-600/50';
-                    else if (isTwitch) borderColor = 'border-purple-600/50';
+                    let hoverBorderColor = 'hover:border-blue-500/50';
+                    if (isYoutube) {
+                        borderColor = 'border-red-600/30';
+                        hoverBorderColor = 'hover:border-red-600';
+                    } else if (isTwitch) {
+                        borderColor = 'border-purple-600/30';
+                        hoverBorderColor = 'hover:border-purple-600';
+                    }
 
                     return `
-                        <div class="bg-[#15151b] border ${borderColor} rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+                        <div class="bg-[#15151b] border ${borderColor} rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
                             ${embedHtml}
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
