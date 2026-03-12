@@ -84,6 +84,12 @@
                     const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
                     const isTwitch = clip.url.includes('twitch.tv');
                     
+                    // Récupération sécurisée des données avec replis
+                    const authorName = clip.author || clip.username || 'Anonyme';
+                    const authorAvatar = clip.authorAvatar || clip.avatar || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+                    const clipId = clip.id || clip.clipId || clip._id;
+                    const createdAt = clip.createdAt || clip.timestamp || new Date();
+
                     let embedHtml = '';
                     if (isYoutube) {
                         const videoId = clip.url.split('v=')[1] || clip.url.split('/').pop();
@@ -107,18 +113,18 @@
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center space-x-4">
-                                        <img src="${clip.authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${clip.author}">
+                                        <img src="${authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${authorName}">
                                         <div class="text-left">
-                                            <h4 class="font-bold text-blue-400">@${clip.author}</h4>
-                                            <p class="text-xs text-gray-500">${new Date(clip.createdAt || clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                            <h4 class="font-bold text-blue-400">@${authorName}</h4>
+                                            <p class="text-xs text-gray-500">${new Date(createdAt).toLocaleDateString('fr-FR')}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        <span class="text-[10px] text-gray-600 font-mono bg-gray-800/50 px-2 py-1 rounded border border-white/5">ID: ${clip.id}</span>
-                                        <button onclick="navigator.clipboard.writeText('${clip.id}')" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copier l'ID">
+                                        <span class="text-[10px] text-gray-600 font-mono bg-gray-800/50 px-2 py-1 rounded border border-white/5">ID: ${clipId}</span>
+                                        <button onclick="navigator.clipboard.writeText('${clipId}')" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copier l'ID">
                                             <i class="fas fa-copy"></i>
                                         </button>
-                                        <button data-delete-id="${clip.id}" class="text-xs text-red-500 hover:text-red-400 transition-colors ml-2" title="Supprimer le clip">
+                                        <button data-delete-id="${clipId}" class="text-xs text-red-500 hover:text-red-400 transition-colors ml-2" title="Supprimer le clip">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>

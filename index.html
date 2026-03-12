@@ -172,6 +172,11 @@
                     const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
                     const isTwitch = clip.url.includes('twitch.tv');
                     
+                    // Récupération sécurisée des données avec replis
+                    const authorName = clip.author || clip.username || 'Anonyme';
+                    const authorAvatar = clip.authorAvatar || clip.avatar || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+                    const createdAt = clip.createdAt || clip.timestamp || new Date();
+
                     let embedHtml = '';
                     if (isYoutube) {
                         const videoId = clip.url.split('v=')[1] || clip.url.split('/').pop();
@@ -189,10 +194,10 @@
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
                                     <div class="flex items-center space-x-3">
-                                        <img src="${clip.authorAvatar}" class="w-8 h-8 rounded-full border border-white/10" alt="${clip.author}">
+                                        <img src="${authorAvatar}" class="w-8 h-8 rounded-full border border-white/10" alt="${authorName}">
                                         <div class="text-left">
-                                            <h4 class="font-bold text-blue-400 text-sm">@${clip.author}</h4>
-                                            <p class="text-xs text-gray-500">${new Date(clip.createdAt || clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                            <h4 class="font-bold text-blue-400 text-sm">@${authorName}</h4>
+                                            <p class="text-xs text-gray-500">${new Date(createdAt).toLocaleDateString('fr-FR')}</p>
                                         </div>
                                     </div>
                                 </div>
