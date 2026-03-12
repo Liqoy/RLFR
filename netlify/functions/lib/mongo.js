@@ -3,17 +3,25 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB_NAME;
 
-let cachedClient = null;
-let cachedDb = null;
+if (!uri) {
+  throw new Error("Missing MONGODB_URI");
+}
+
+if (!dbName) {
+  throw new Error("Missing MONGODB_DB_NAME");
+}
+
+let client;
+let clientPromise;
+
+if (!globalThis._mongoClientPromise) {
+  client = new MongoClient(uri);
+  globalThis._mongoClientPromise = client.connect();
+}
+
+clientPromise = globalThis._mongoClientPromise;
 
 export async function getDb() {
-  if (cachedDb) return cachedDb;
-
-  if (!cachedClient) {
-    cachedClient = new MongoClient(uri);
-    await cachedClient.connect();
-  }
-
-  cachedDb = cachedClient.db(dbName);
-  return cachedDb;
+  const connectedClient = await clientPromise;
+  return connectedClient.db(dbName);
 }
