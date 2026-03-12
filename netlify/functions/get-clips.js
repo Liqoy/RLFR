@@ -13,17 +13,23 @@ export const handler = async () => {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(clips),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(clips),
     };
   } catch (error) {
-    console.error(error);
+    console.error("get-clips error:", error);
 
     return {
       statusCode: 500,
-      body: "Error loading clips",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ok: false,
+        message: error?.message || String(error),
+      }),
     };
   }
 };
