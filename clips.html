@@ -52,7 +52,7 @@
         async function loadClips() {
             const container = document.getElementById('clips-container');
             try {
-                const response = await fetch('/.netlify/functions/get-clips');
+                const response = await fetch('/api/get-clips');
                 if (!response.ok) throw new Error('Erreur réseau');
                 const clips = await response.json();
 

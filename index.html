@@ -146,7 +146,7 @@
         async function loadHomeClips() {
             const container = document.getElementById('home-clips-container');
             try {
-                const response = await fetch('/.netlify/functions/get-clips');
+                const response = await fetch('/api/get-clips');
                 if (!response.ok) throw new Error('Erreur réseau');
                 const clips = await response.json();
 
@@ -246,7 +246,7 @@
             <div class="bg-gradient-to-r from-indigo-900 to-indigo-700 rounded-3xl p-12 text-center md:text-left md:flex items-center justify-between">
                 <div>
                     <h2 class="font-['Orbitron'] text-4xl md:text-5xl font-black mb-4 italic">PRÊT À GRIMPER LE LADDER ?</h2>
-                    <p class="text-xl text-indigo-100/80 mb-0">Rejoins +2000 membres actifs dès maintenant.</p>
+                    <p class="text-xl text-indigo-100/80 mb-0">Rejoins +67 membres actifs dès maintenant.</p>
                 </div>
                 <div class="mt-8 md:mt-0">
                     <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-indigo-900 px-10 py-5 rounded-xl font-black text-xl transition transform hover:scale-105 flex items-center justify-center space-x-3">
