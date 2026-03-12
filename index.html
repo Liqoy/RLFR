@@ -184,11 +184,19 @@
                         <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
                             ${embedHtml}
                             <div class="p-4">
-                                <div class="flex items-center space-x-3 mb-3">
-                                    <img src="${clip.authorAvatar}" class="w-8 h-8 rounded-full border border-white/10" alt="${clip.author}">
-                                    <div>
-                                        <h4 class="font-bold text-blue-400 text-sm">@${clip.author}</h4>
-                                        <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="${clip.authorAvatar}" class="w-8 h-8 rounded-full border border-white/10" alt="${clip.author}">
+                                        <div>
+                                            <h4 class="font-bold text-blue-400 text-sm">@${clip.author}</h4>
+                                            <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-gray-600 font-mono bg-gray-800 px-2 py-1 rounded">ID: ${clip.id}</span>
+                                        <button onclick="navigator.clipboard.writeText('${clip.id}')" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copier l'ID">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

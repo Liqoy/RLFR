@@ -86,18 +86,39 @@
                         const clipSlug = clip.url.split('/').pop();
                         embedHtml = `<iframe src="https://clips.twitch.tv/embed?clip=${clipSlug}&parent=${window.location.hostname}" frameborder="0" allowfullscreen="true" scrolling="no" class="w-full aspect-video rounded-t-2xl"></iframe>`;
                     } else {
-                        embedHtml = `<video controls class="w-full aspect-video rounded-t-2xl"><source src="${clip.url}" type="video/mp4"></video>`;
+                        // Clip hors plateformes (fichier direct) : player personnalisé
+                        embedHtml = `
+                            <div class="relative group">
+                                <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/30 via-transparent to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                                <div class="absolute inset-0 ring-1 ring-white/10 rounded-t-2xl group-hover:ring-blue-500/40 transition-all duration-500 pointer-events-none"></div>
+                                <video controls class="relative w-full aspect-video object-cover rounded-t-2xl bg-black/60">
+                                    <source src="${clip.url}" type="video/mp4">
+                                </video>
+                                <div class="pointer-events-none absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/70 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] flex items-center space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                                    <span>Clip Local</span>
+                                </div>
+                            </div>
+                        `;
                     }
 
                     return `
                         <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
                             ${embedHtml}
                             <div class="p-6">
-                                <div class="flex items-center space-x-4 mb-4">
-                                    <img src="${clip.authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${clip.author}">
-                                    <div>
-                                        <h4 class="font-bold text-blue-400">@${clip.author}</h4>
-                                        <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-4">
+                                        <img src="${clip.authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${clip.author}">
+                                        <div>
+                                            <h4 class="font-bold text-blue-400">@${clip.author}</h4>
+                                            <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-gray-600 font-mono bg-gray-800 px-2 py-1 rounded">ID: ${clip.id}</span>
+                                        <button onclick="navigator.clipboard.writeText('${clip.id}')" class="text-xs text-gray-500 hover:text-white transition-colors" title="Copier l'ID">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <a href="${clip.url}" target="_blank" class="text-xs uppercase tracking-widest font-black text-gray-400 hover:text-white transition-colors flex items-center space-x-2">
