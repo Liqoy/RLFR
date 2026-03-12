@@ -130,15 +130,80 @@
                 </a>
             </div>
 
-            <div class="bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
-                <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-video-slash text-3xl text-gray-600"></i>
+            <div id="home-clips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Les derniers clips seront chargés ici -->
+                <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
+                    </div>
+                    <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
                 </div>
-                <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400">Aucun clip posté</h3>
-                <p class="text-gray-500 max-w-md mx-auto">Soyez le premier à partager votre exploit dans le salon <span class="text-blue-500 font-bold">#clip_rl</span> pour apparaître ici !</p>
             </div>
         </div>
     </section>
+
+    <script>
+        async function loadHomeClips() {
+            const container = document.getElementById('home-clips-container');
+            try {
+                const response = await fetch('/.netlify/functions/get-clips');
+                if (!response.ok) throw new Error('Erreur réseau');
+                const clips = await response.json();
+
+                if (clips.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
+                            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-video-slash text-3xl text-gray-600"></i>
+                            </div>
+                            <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Aucun clip posté</h3>
+                            <p class="text-gray-500 max-w-md mx-auto text-center">Soyez le premier à partager votre exploit dans le salon <span class="text-blue-500 font-bold">#clip_rl</span> pour apparaître ici !</p>
+                        </div>`;
+                    return;
+                }
+
+                // Afficher seulement les 3 premiers clips sur l'accueil
+                const homeClips = clips.slice(0, 3);
+                
+                container.innerHTML = homeClips.map(clip => {
+                    const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
+                    const isTwitch = clip.url.includes('twitch.tv');
+                    
+                    let embedHtml = '';
+                    if (isYoutube) {
+                        const videoId = clip.url.split('v=')[1] || clip.url.split('/').pop();
+                        embedHtml = `<iframe class="w-full aspect-video rounded-t-2xl" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    } else if (isTwitch) {
+                        const clipSlug = clip.url.split('/').pop();
+                        embedHtml = `<iframe src="https://clips.twitch.tv/embed?clip=${clipSlug}&parent=${window.location.hostname}" frameborder="0" allowfullscreen="true" scrolling="no" class="w-full aspect-video rounded-t-2xl"></iframe>`;
+                    } else {
+                        embedHtml = `<video controls class="w-full aspect-video rounded-t-2xl"><source src="${clip.url}" type="video/mp4"></video>`;
+                    }
+
+                    return `
+                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+                            ${embedHtml}
+                            <div class="p-4">
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <img src="${clip.authorAvatar}" class="w-8 h-8 rounded-full border border-white/10" alt="${clip.author}">
+                                    <div>
+                                        <h4 class="font-bold text-blue-400 text-sm">@${clip.author}</h4>
+                                        <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<p class="text-red-500 col-span-full text-center">Erreur lors du chargement des clips.</p>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadHomeClips);
+    </script>
 
     <!-- Channels & Structure Section -->
 
