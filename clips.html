@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clips de la Communauté | RL-FR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/tree/main/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0a0c] text-white font-['Rajdhani'] overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 px-6 py-4 transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-orange-500 rounded-xl flex items-center justify-center font-['Orbitron'] font-black text-xl italic transition-transform group-hover:scale-110">RL</div>
+                <span class="font-['Orbitron'] font-bold text-xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">RL-FR</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]">
+                <a href="index.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Accueil</a>
+                <a href="clips.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full text-blue-500">Clips</a>
+                <a href="tournois.html" class="hover:text-blue-400 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all hover:after:w-full">Tournois</a>
+            </div>
+            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 flex items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
+                <i class="fab fa-discord text-base"></i>
+                <span>Rejoindre</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-24">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="mb-16">
+                <h1 class="font-['Orbitron'] text-5xl md:text-6xl font-black mb-4 italic uppercase text-gradient">DERNIERS <span class="text-white">CLIPS</span></h1>
+                <p class="text-xl text-gray-400">Les meilleures actions de la communauté française.</p>
+            </div>
+
+            <div id="clips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Les clips seront chargés ici -->
+                <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 animate-pulse">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
+                    </div>
+                    <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function loadClips() {
+            const container = document.getElementById('clips-container');
+            try {
+                const response = await fetch('/.netlify/functions/get-clips');
+                if (!response.ok) throw new Error('Erreur réseau');
+                const clips = await response.json();
+
+                if (clips.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20">
+                            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-video-slash text-3xl text-gray-600"></i>
+                            </div>
+                            <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Aucun clip posté pour le moment</h3>
+                            <p class="text-gray-500 max-w-md mx-auto mb-8 text-center">Rejoignez notre serveur Discord et partagez vos meilleurs moments dans le salon <span class="text-blue-500 font-bold">#clip_rl</span> !</p>
+                            <div class="text-center">
+                                <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="inline-flex items-center space-x-3 bg-indigo-600 hover:bg-indigo-500 px-8 py-4 rounded-xl font-black transition uppercase tracking-widest text-sm">
+                                    <i class="fab fa-discord"></i>
+                                    <span>Poster un clip</span>
+                                </a>
+                            </div>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = clips.map(clip => {
+                    const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
+                    const isTwitch = clip.url.includes('twitch.tv');
+                    
+                    let embedHtml = '';
+                    if (isYoutube) {
+                        const videoId = clip.url.split('v=')[1] || clip.url.split('/').pop();
+                        embedHtml = `<iframe class="w-full aspect-video rounded-t-2xl" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+                    } else if (isTwitch) {
+                        const clipSlug = clip.url.split('/').pop();
+                        embedHtml = `<iframe src="https://clips.twitch.tv/embed?clip=${clipSlug}&parent=${window.location.hostname}" frameborder="0" allowfullscreen="true" scrolling="no" class="w-full aspect-video rounded-t-2xl"></iframe>`;
+                    } else {
+                        embedHtml = `<video controls class="w-full aspect-video rounded-t-2xl"><source src="${clip.url}" type="video/mp4"></video>`;
+                    }
+
+                    return `
+                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+                            ${embedHtml}
+                            <div class="p-6">
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <img src="${clip.authorAvatar}" class="w-10 h-10 rounded-full border border-white/10" alt="${clip.author}">
+                                    <div>
+                                        <h4 class="font-bold text-blue-400">@${clip.author}</h4>
+                                        <p class="text-xs text-gray-500">${new Date(clip.timestamp).toLocaleDateString('fr-FR')}</p>
+                                    </div>
+                                </div>
+                                <a href="${clip.url}" target="_blank" class="text-xs uppercase tracking-widest font-black text-gray-400 hover:text-white transition-colors flex items-center space-x-2">
+                                    <span>Voir la source</span>
+                                    <i class="fas fa-external-link-alt text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<p class="text-red-500 col-span-full text-center">Erreur lors du chargement des clips.</p>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadClips);
+    </script>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-6 md:mb-0">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-orange-500 rounded flex items-center justify-center font-['Orbitron'] font-black text-sm italic">RL</div>
+                <span class="font-['Orbitron'] font-bold text-lg tracking-tighter">RL-FR</span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 RL-FR Community. Tous droits réservés.
+            </div>
+            <div class="flex space-x-6 mt-6 md:mt-0 text-xl text-gray-400">
+                <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-purple-500 transition"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script> 
+    <script src="js/main.js"></script>
+</body>
+</html>

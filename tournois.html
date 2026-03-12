@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournois | RL-FR</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/tree/main/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0a0c] text-white font-['Rajdhani'] overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 px-6 py-4 transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-orange-500 rounded-xl flex items-center justify-center font-['Orbitron'] font-black text-xl italic transition-transform group-hover:scale-110">RL</div>
+                <span class="font-['Orbitron'] font-bold text-xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">RL-FR</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]">
+                <a href="index.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Accueil</a>
+                <a href="clips.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Clips</a>
+                <a href="tournois.html" class="hover:text-blue-400 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all hover:after:w-full text-blue-400">Tournois</a>
+            </div>
+            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 flex items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
+                <i class="fab fa-discord text-base"></i>
+                <span>Rejoindre</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-24">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="mb-16 text-left md:text-center">
+                <h1 class="font-['Orbitron'] text-5xl md:text-6xl font-black mb-4 italic uppercase text-gradient">NOS <span class="text-white">TOURNOIS</span></h1>
+                <p class="text-xl text-gray-400">L'élite de la scène française se retrouve ici.</p>
+            </div>
+
+            <div class="bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20">
+                <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-trophy text-3xl text-gray-600"></i>
+                </div>
+                <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400">Aucun tournoi en cours</h3>
+                <p class="text-gray-500 max-w-md mx-auto mb-8">Les prochains tournois seront annoncés dans le salon <span class="text-blue-500 font-bold">#annonce-tournois</span> de notre serveur Discord.</p>
+                <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="inline-flex items-center space-x-3 bg-indigo-600 hover:bg-indigo-500 px-8 py-4 rounded-xl font-black transition uppercase tracking-widest text-sm">
+                    <i class="fab fa-discord"></i>
+                    <span>Rejoindre le Discord</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-6 md:mb-0">
+                <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-orange-500 rounded flex items-center justify-center font-['Orbitron'] font-black text-sm italic">RL</div>
+                <span class="font-['Orbitron'] font-bold text-lg tracking-tighter">RL-FR</span>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 RL-FR Community. Tous droits réservés.
+            </div>
+            <div class="flex space-x-6 mt-6 md:mt-0 text-xl text-gray-400">
+                <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-purple-500 transition"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script> 
+    <script src="js/main.js"></script>
+</body>
+</html>
