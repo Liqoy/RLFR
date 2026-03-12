@@ -12,35 +12,51 @@
 <body class="bg-[#0a0a0c] text-white font-['Rajdhani'] overflow-x-hidden">
     <!-- Navbar -->
     <nav class="fixed w-full z-50 px-6 py-4 transition-all duration-300" id="main-nav">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl relative">
             <a href="index.html" class="flex items-center space-x-3 group">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-orange-500 rounded-xl flex items-center justify-center font-['Orbitron'] font-black text-xl italic transition-transform group-hover:scale-110">RL</div>
                 <span class="font-['Orbitron'] font-bold text-xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">RL-FR</span>
             </a>
-            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]">
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-white p-2" id="menu-toggle">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]" id="nav-links">
                 <a href="index.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Accueil</a>
                 <a href="clips.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Clips</a>
                 <a href="tournois.html" class="hover:text-blue-400 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all hover:after:w-full">Tournois</a>
+                
+                <!-- Mobile Only Button -->
+                <div class="md:hidden pt-4">
+                    <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="w-full bg-white text-black px-6 py-3 rounded-xl font-black transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest">
+                        <i class="fab fa-discord text-base"></i>
+                        <span>Rejoindre</span>
+                    </a>
+                </div>
             </div>
-            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 flex items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
+
+            <!-- Desktop Button -->
+            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="hidden md:flex bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
                 <i class="fab fa-discord text-base"></i>
                 <span>Rejoindre</span>
             </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="accueil" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section id="accueil" class="relative min-h-[80vh] md:min-h-screen flex items-center pt-20 overflow-hidden">
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-[#0a0a0c] z-10"></div>
             <!-- Vidéo de fond Rocket League -->
-            <iframe class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] object-cover pointer-events-none opacity-50 transition-opacity duration-1000" id="hero-video"
+            <iframe class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] md:w-[115%] md:h-[115%] object-cover pointer-events-none opacity-50 transition-opacity duration-1000" id="hero-video"
                 src="https://www.youtube.com/embed/x4QFbpFmj7E?autoplay=1&mute=1&controls=0&loop=1&playlist=x4QFbpFmj7E&start=60&showinfo=0&rel=0&modestbranding=1&enablejsapi=1" 
                 frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <div class="max-w-7xl mx-auto px-6 relative z-20 w-full flex flex-col md:flex-row items-center justify-between gap-12">
-            <div class="max-w-2xl text-left">
+            <div class="max-w-2xl text-center md:text-left flex flex-col items-center md:items-start">
                 <div class="inline-flex items-center space-x-2 bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 rounded-full text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] mb-8 animate-float">
                     <span class="relative flex h-2 w-2">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -48,18 +64,18 @@
                     </span>
                     <span>Communauté active 2026</span>
                 </div>
-                <h1 class="font-['Orbitron'] text-6xl md:text-[7rem] font-black mb-6 italic leading-none hero-glow tracking-tighter">
+                <h1 class="font-['Orbitron'] text-5xl md:text-[7rem] font-black mb-6 italic leading-none hero-glow tracking-tighter">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800">DOMINEZ</span><br>
                     <span class="text-white drop-shadow-2xl">L'ARÈNE.</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-400 mb-10 border-l-4 border-blue-500 pl-6 py-2 max-w-xl leading-relaxed">
+                <p class="text-lg md:text-2xl text-gray-400 mb-10 border-l-0 md:border-l-4 border-blue-500 px-0 md:pl-6 py-2 max-w-xl leading-relaxed">
                     Rejoignez l'élite française. Trouvez vos mates et remportez nos tournois exclusifs.
                 </p>
-                <div class="flex flex-wrap gap-6">
-                    <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="shine-effect bg-blue-600 hover:bg-blue-500 px-12 py-5 rounded-2xl font-black text-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-widest animate-pulse-blue shadow-2xl shadow-blue-600/20">
-                        Rejoindre l'aventure
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="text-center bg-blue-600 hover:bg-blue-500 px-10 md:px-12 py-4 md:py-5 rounded-2xl font-black text-base md:text-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-widest shadow-2xl shadow-blue-600/20">
+                        Discord
                     </a>
-                    <a href="tournois.html" class="glass px-12 py-5 rounded-2xl font-black text-lg transition-all duration-300 hover:bg-white/5 uppercase tracking-widest border border-white/10 hover:border-white/20">
+                    <a href="tournois.html" class="text-center glass px-10 md:px-12 py-4 md:py-5 rounded-2xl font-black text-base md:text-lg transition-all duration-300 hover:bg-white/5 uppercase tracking-widest border border-white/10 hover:border-white/20">
                         Tournois
                     </a>
                 </div>
@@ -143,6 +159,32 @@
     </section>
 
     <script>
+        // Menu Toggle Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('hidden');
+            navLinks.classList.toggle('flex');
+            navLinks.classList.toggle('flex-col');
+            navLinks.classList.toggle('absolute');
+            navLinks.classList.toggle('top-full');
+            navLinks.classList.toggle('left-0');
+            navLinks.classList.toggle('w-full');
+            navLinks.classList.toggle('bg-[#0a0a0c]/95');
+            navLinks.classList.toggle('backdrop-blur-xl');
+            navLinks.classList.toggle('p-6');
+            navLinks.classList.toggle('space-y-6');
+            navLinks.classList.toggle('space-x-10');
+            navLinks.classList.toggle('rounded-b-2xl');
+            navLinks.classList.toggle('border-b');
+            navLinks.classList.toggle('border-white/5');
+            
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
         async function loadHomeClips() {
             const container = document.getElementById('home-clips-container');
             try {

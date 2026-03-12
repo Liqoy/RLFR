@@ -12,17 +12,34 @@
 <body class="bg-[#0a0a0c] text-white font-['Rajdhani'] overflow-x-hidden">
     <!-- Navbar -->
     <nav class="fixed w-full z-50 px-6 py-4 transition-all duration-300" id="main-nav">
-        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-[#0a0a0c]/40 backdrop-blur-xl border border-white/5 rounded-2xl px-6 py-3 shadow-2xl relative">
             <a href="index.html" class="flex items-center space-x-3 group">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-orange-500 rounded-xl flex items-center justify-center font-['Orbitron'] font-black text-xl italic transition-transform group-hover:scale-110">RL</div>
                 <span class="font-['Orbitron'] font-bold text-xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">RL-FR</span>
             </a>
-            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]">
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-white p-2" id="menu-toggle">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-10 font-bold uppercase tracking-[0.2em] text-[11px]" id="nav-links">
                 <a href="index.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Accueil</a>
                 <a href="clips.html" class="hover:text-blue-500 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all hover:after:w-full">Clips</a>
                 <a href="tournois.html" class="hover:text-blue-400 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all hover:after:w-full text-blue-400">Tournois</a>
+                
+                <!-- Mobile Only Button -->
+                <div class="md:hidden pt-4">
+                    <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="w-full bg-white text-black px-6 py-3 rounded-xl font-black transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest">
+                        <i class="fab fa-discord text-base"></i>
+                        <span>Rejoindre</span>
+                    </a>
+                </div>
             </div>
-            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 flex items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
+
+            <!-- Desktop Button -->
+            <a href="https://discord.gg/BV93eh8BTp" target="_blank" class="hidden md:flex bg-white text-black hover:bg-blue-500 hover:text-white px-6 py-2 rounded-xl font-black transition-all duration-300 items-center space-x-2 text-xs uppercase tracking-widest shadow-lg shadow-white/5 hover:shadow-blue-500/20">
                 <i class="fab fa-discord text-base"></i>
                 <span>Rejoindre</span>
             </a>
@@ -68,6 +85,33 @@
         </div>
     </footer>
 
+    <script>
+        // Menu Toggle Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('hidden');
+            navLinks.classList.toggle('flex');
+            navLinks.classList.toggle('flex-col');
+            navLinks.classList.toggle('absolute');
+            navLinks.classList.toggle('top-full');
+            navLinks.classList.toggle('left-0');
+            navLinks.classList.toggle('w-full');
+            navLinks.classList.toggle('bg-[#0a0a0c]/95');
+            navLinks.classList.toggle('backdrop-blur-xl');
+            navLinks.classList.toggle('p-6');
+            navLinks.classList.toggle('space-y-6');
+            navLinks.classList.toggle('space-x-10');
+            navLinks.classList.toggle('rounded-b-2xl');
+            navLinks.classList.toggle('border-b');
+            navLinks.classList.toggle('border-white/5');
+            
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+    </script>
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script> 
     <script src="js/main.js"></script>
 </body>
