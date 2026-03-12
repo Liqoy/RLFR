@@ -19,6 +19,15 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide scrollbar (clean horizontal sliders) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge legacy */
+    scrollbar-width: none; /* Firefox */
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;

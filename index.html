@@ -136,7 +136,7 @@
                 <a href="clips.html" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-xl font-bold transition uppercase tracking-widest text-[10px] border border-white/10">Voir tout</a>
             </div>
             
-            <div id="home-clips-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="home-clips-container" class="no-scrollbar flex flex-nowrap overflow-x-auto snap-x snap-mandatory gap-4 pb-2 md:pb-0 md:overflow-visible md:grid md:grid-cols-3 md:gap-8">
                 <!-- Les clips seront chargés ici -->
                 <div class="col-span-full py-20 text-center">
                     <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -289,7 +289,7 @@
                     }
 
                     return `
-                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
+                        <div class="snap-start shrink-0 w-[85%] sm:w-[70%] md:w-auto bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
                             ${embedHtml}
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
