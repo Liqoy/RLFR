@@ -44,26 +44,14 @@
                 <p class="text-xl text-gray-400">Les meilleures actions de la communauté française.</p>
             </div>
 
-            <div class="relative group mt-8">
-                <div id="clips-container" class="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 transition-all duration-500 scroll-smooth">
-                    <!-- Les clips seront chargés ici -->
-                    <div class="min-w-full md:min-w-[calc(33.333%-1rem)] snap-center">
-                        <div class="bg-[#15151b] border border-white/5 rounded-2xl p-12 text-center">
-                            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
-                            </div>
-                            <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400">Chargement...</h3>
-                        </div>
+            <div id="clips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Les clips seront chargés ici -->
+                <div class="col-span-full py-20 text-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
                     </div>
+                    <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
                 </div>
-                
-                <!-- Navigation Buttons Overlay (Optional but nice for UX) -->
-                <button id="prev-clip-gallery" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 rounded-full bg-[#0a0a0c]/80 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all z-10 opacity-0 group-hover:opacity-100 hidden md:flex">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button id="next-clip-gallery" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 rounded-full bg-[#0a0a0c]/80 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all z-10 opacity-0 group-hover:opacity-100 hidden md:flex">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
             <p id="error" class="text-red-500 mt-8 hidden"></p>
         </div>
@@ -161,7 +149,7 @@
                     }
 
                     return `
-                        <div class="min-w-[85vw] md:min-w-[calc(33.333%-1rem)] snap-center bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
+                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
                             ${embedHtml}
                             <div class="p-6">
                                 <div class="flex items-center justify-between mb-4">
@@ -191,18 +179,26 @@
                     `;
                 }).join('');
 
-                // Navigation du slider gallery
-                const prevGalleryBtn = document.getElementById('prev-clip-gallery');
-                const nextGalleryBtn = document.getElementById('next-clip-gallery');
-                
-                if (prevGalleryBtn && nextGalleryBtn) {
-                    prevGalleryBtn.addEventListener('click', () => {
-                        container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
+                // Gestionnaire d'événements pour la suppression
+                container.querySelectorAll('button[data-delete-id]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-delete-id');
+                        if (!confirm(`Supprimer le clip ${id} ?`)) return;
+
+                        try {
+                            const res = await fetch("/api/delete-clip", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ clipId: id })
+                            });
+                            if (!res.ok) throw new Error("Erreur lors de la suppression");
+                            await loadClips();
+                        } catch (err) {
+                            console.error(err);
+                            alert("Erreur lors de la suppression.");
+                        }
                     });
-                    nextGalleryBtn.addEventListener('click', () => {
-                        container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
-                    });
-                }
+                });
 
                 // Gestionnaire d'événements pour la suppression
                 container.querySelectorAll('button[data-delete-id]').forEach(btn => {

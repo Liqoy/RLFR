@@ -128,33 +128,21 @@
     <!-- Community Clips Section -->
     <section id="clips" class="py-24 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div class="flex justify-between items-end mb-12">
                 <div class="text-left">
-                    <h2 class="font-['Orbitron'] text-4xl md:text-5xl font-black italic uppercase tracking-tighter mb-4">Derniers <span class="text-blue-500">Clips</span></h2>
+                    <h2 class="font-['Orbitron'] text-5xl font-black italic uppercase tracking-tighter mb-4">Derniers <span class="text-blue-500">Clips</span></h2>
                     <p class="text-gray-400 font-medium tracking-wide">Les meilleures actions de la communauté RL-FR.</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <button id="prev-clip" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all group">
-                        <i class="fas fa-chevron-left group-hover:scale-110 transition-transform"></i>
-                    </button>
-                    <button id="next-clip" class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-500 transition-all group">
-                        <i class="fas fa-chevron-right group-hover:scale-110 transition-transform"></i>
-                    </button>
-                    <a href="clips.html" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-xl font-bold transition uppercase tracking-widest text-[10px] border border-white/10">Voir tout</a>
-                </div>
+                <a href="clips.html" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-xl font-bold transition uppercase tracking-widest text-[10px] border border-white/10">Voir tout</a>
             </div>
             
-            <div class="relative group">
-                <div id="home-clips-container" class="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-8 transition-all duration-500 scroll-smooth">
-                    <!-- Les clips seront chargés ici -->
-                    <div class="min-w-full md:min-w-[calc(33.333%-1rem)] snap-center">
-                        <div class="bg-[#15151b] border border-white/5 rounded-2xl p-12 text-center">
-                            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
-                            </div>
-                            <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400">Chargement...</h3>
-                        </div>
+            <div id="home-clips-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Les clips seront chargés ici -->
+                <div class="col-span-full py-20 text-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-spinner fa-spin text-3xl text-gray-600"></i>
                     </div>
+                    <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Chargement des clips...</h3>
                 </div>
             </div>
         </div>
@@ -250,9 +238,6 @@
 
         async function loadHomeClips() {
             const container = document.getElementById('home-clips-container');
-            const prevBtn = document.getElementById('prev-clip');
-            const nextBtn = document.getElementById('next-clip');
-
             try {
                 const response = await fetch('/api/get-clips');
                 if (!response.ok) throw new Error('Erreur réseau');
@@ -263,25 +248,24 @@
 
                 if (clips.length === 0) {
                     container.innerHTML = `
-                        <div class="min-w-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
+                        <div class="col-span-full bg-[#15151b] border-2 border-dashed border-white/10 rounded-[2rem] p-20 text-center">
                             <div class="w-32 h-32 mx-auto mb-6">
                                 <img src="https://i.ibb.co/JRQDspgh/video-01.png" class="w-full h-full object-contain opacity-50 grayscale hover:grayscale-0 transition-all duration-500" alt="Aucun clip">
                             </div>
                             <h3 class="font-['Orbitron'] text-2xl font-bold mb-2 uppercase italic text-gray-400 text-center">Aucun clip posté</h3>
                             <p class="text-gray-500 max-w-md mx-auto text-center">Soyez le premier à partager votre exploit dans le salon <span class="text-blue-500 font-bold">#clip_rl</span> pour apparaître ici !</p>
                         </div>`;
-                    if (prevBtn) prevBtn.style.display = 'none';
-                    if (nextBtn) nextBtn.style.display = 'none';
                     return;
                 }
 
-                // Afficher tous les clips récents (limité à 10 pour le slider)
-                const sliderClips = clips.slice(0, 10);
+                // Afficher seulement les 3 premiers clips sur l'accueil
+                const homeClips = clips.slice(0, 3);
                 
-                container.innerHTML = sliderClips.map(clip => {
+                container.innerHTML = homeClips.map(clip => {
                     const isYoutube = clip.url.includes('youtube.com') || clip.url.includes('youtu.be');
                     const isTwitch = clip.url.includes('twitch.tv');
                     
+                    // Récupération sécurisée des données avec replis
                     const authorName = clip.author || clip.username || 'Anonyme';
                     const authorAvatar = clip.authorAvatar || clip.avatar || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
                     const createdAt = clip.createdAt || clip.timestamp || new Date();
@@ -298,11 +282,14 @@
                     }
 
                     let hoverBorderColor = 'hover:border-blue-500/50';
-                    if (isYoutube) hoverBorderColor = 'hover:border-red-600';
-                    else if (isTwitch) hoverBorderColor = 'hover:border-purple-600';
+                    if (isYoutube) {
+                        hoverBorderColor = 'hover:border-red-600';
+                    } else if (isTwitch) {
+                        hoverBorderColor = 'hover:border-purple-600';
+                    }
 
                     return `
-                        <div class="min-w-[85vw] md:min-w-[calc(33.333%-1rem)] snap-center bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
+                        <div class="bg-[#15151b] border border-white/5 rounded-2xl overflow-hidden group ${hoverBorderColor} transition-all duration-300">
                             ${embedHtml}
                             <div class="p-4">
                                 <div class="flex items-center justify-between mb-3">
@@ -318,16 +305,6 @@
                         </div>
                     `;
                 }).join('');
-
-                // Navigation du slider
-                if (prevBtn && nextBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        container.scrollBy({ left: -container.offsetWidth, behavior: 'smooth' });
-                    });
-                    nextBtn.addEventListener('click', () => {
-                        container.scrollBy({ left: container.offsetWidth, behavior: 'smooth' });
-                    });
-                }
 
             } catch (error) {
                 console.error(error);
