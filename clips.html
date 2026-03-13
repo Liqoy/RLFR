@@ -120,7 +120,18 @@
                     
                     // Récupération sécurisée des données avec replis
                     const authorName = clip.author || clip.username || 'Anonyme';
-                    const authorAvatar = clip.authorAvatar || clip.avatar || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+                    let authorAvatar = clip.authorAvatar || clip.avatar;
+                    
+                    // Si l'avatar est manquant, essayer de le générer depuis l'ID Discord
+                    if (!authorAvatar && clip.authorId) {
+                        authorAvatar = `https://cdn.discordapp.com/avatars/${clip.authorId}/a_default.png`;
+                    }
+                    
+                    // Avatar par défaut si toujours manquant
+                    if (!authorAvatar) {
+                        authorAvatar = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+                    }
+                    
                     const clipId = clip.id || clip.clipId || clip._id;
                     const createdAt = clip.createdAt || clip.timestamp || new Date();
 

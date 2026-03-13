@@ -46,6 +46,18 @@ export default async function handler(req, res) {
       data.id = randomId;
     }
 
+    // Générer l'avatar Discord si manquant
+    if (!data.authorAvatar && !data.avatar && data.authorId) {
+      // Discord avatar URL format: https://cdn.discordapp.com/avatars/{userId}/{avatarId}.png
+      // Si on n'a que l'ID utilisateur, on peut utiliser l'avatar par défaut
+      data.authorAvatar = `https://cdn.discordapp.com/avatars/${data.authorId}/a_default.png`;
+    }
+    
+    // Avatar par défaut si toujours manquant
+    if (!data.authorAvatar && !data.avatar) {
+      data.authorAvatar = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+    }
+
     // Sinon, c'est un nouvel enregistrement
     await collection.insertOne({
       ...data,
